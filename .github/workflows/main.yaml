@@ -1,0 +1,23 @@
+name: surgesite
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  
+  build:
+    runs-on: ubuntu-latest
+    steps:   
+    - uses: actions/checkout@v2
+    - run: echo "Setting up Node.Js"
+    - name: Setup Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: 12
+
+    - name: Setup Surge
+      run: npm install -g surge
+    - run: echo "Deploying Website"
+
+    - name: deploying using surge
+      run: surge . ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
